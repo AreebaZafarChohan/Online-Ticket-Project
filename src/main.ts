@@ -1,3 +1,5 @@
+// This is the main file of project
+
 import inquirer from "inquirer";
 import { showPlaces } from "./displayTours.js";
 import { clientSignIn } from "./user-curd.js";
