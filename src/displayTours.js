@@ -1,18 +1,22 @@
 // This file contains all over the portal work which will be shown to user.
 import inquirer from "inquirer";
-export let offerclients = [];
-export let otherClients = [];
-function showPlaces() {
-    inquirer
-        .prompt([
+import { main } from "./user.js";
+import boxen from "boxen";
+import chalk from "chalk";
+import chlakAnimation from "chalk-animation";
+// Array to store all client details
+export let allClients = [];
+//Function to show different places and offers
+export function showPlaces() {
+    inquirer.prompt([
         {
             type: "list",
             name: "menuOption",
-            message: "Welcome to the JourneyJoy Tour Portal! Please choose an option:\n",
+            message: chalk.green("\nPlease choose an option:\n"),
             choices: [
                 "Offers",
                 "Trending destinations",
-                "Other places and Out of country tours",
+                "Other places and foreign tours",
             ],
         },
     ])
@@ -24,85 +28,82 @@ function showPlaces() {
             trendingDestinations();
         }
         else {
-            ForiegnCountriesAndOtherPlaces();
+            foreignCountriesAndOtherPlaces();
         }
     });
 }
-let offerOptions = [
+// Array of available offers
+export let offerOptions = [
     {
         name: "Hunza Valley",
-        value: "hunzaValley",
+        value: "Hunza Valley",
         price: 38000,
         discountedPrice: 34000,
         duration: "6 Days and 5 nights",
         validity: "2024-06-22",
-        availability: 0,
         groupName: "offerHunza",
     },
     {
         name: "Kalam Valley",
-        value: "kalamValley",
+        value: "Kalam Valley",
         price: 25000,
         discountedPrice: 22500,
         duration: "4 Days and 3 nights",
         validity: "2024-06-25",
-        availability: 0,
         groupName: "offerKalam",
     },
     {
         name: "Skardu Valley",
-        value: "skarduValley",
+        value: "Skardu Valley",
         price: 40000,
         discountedPrice: 36500,
         duration: "7 Days and 6 nights",
         validity: "2024-06-30",
-        availability: 0,
         groupName: "offerSkardu",
     },
     {
         name: "Neelum Valley",
-        value: "neelumValley",
+        value: "Neelum Valley",
         price: 32500,
         discountedPrice: 28000,
         duration: "7 Days and 6 nights",
         validity: "2024-06-30",
-        availability: 0,
         groupName: "offerNeelum",
     },
     {
         name: "Kashmir",
-        value: "kashmir",
+        value: "Kashmir",
         price: 27000,
         discountedPrice: 23000,
         duration: "4 Days and 3 nights",
         validity: "2024-06-27",
-        availability: 0,
         groupName: "offerKashmir",
     },
     {
         name: "Murree",
-        value: "murree",
+        value: "Murree",
         price: 56000,
         discountedPrice: 52000,
         duration: "4 Days and 3 nights",
         validity: "2024-06-30",
-        availability: 0,
         groupName: "offerMurree",
     },
 ];
+// Create choices for offers
 let offerOptionsForChocies = offerOptions.map((option) => ({
     name: `\n• ${option.name}:
 Original Price: Rs/-${option.price} --- Discounted Price: Rs/-${option.discountedPrice}
-Tour's Duration: ${option.duration} --- Availibility ${option.availability} persons.
+Tour's Duration: ${option.duration}
 Last Date Of Booking ${option.validity}`,
     value: option.value,
 }));
+// Function to show available offers
 async function offers() {
     const { offers } = await inquirer.prompt([
         {
             type: "list",
             name: "offers",
-            message: "\nWhere do you want to go?",
+            message: chalk.green("\nWhere do you want to go?\n"),
             choices: offerOptionsForChocies,
         },
     ]);
@@ -110,98 +111,92 @@ async function offers() {
     if (selectedOffer) {
         const currentDate = new Date();
         const offerValidity = new Date(selectedOffer.validity);
-        if (currentDate <= offerValidity &&
-            selectedOffer.availability >= 0 &&
-            selectedOffer.availability <= 20) {
-            console.log("\nThis offer is still available. You can proceed with booking.\n");
+        if (currentDate <= offerValidity) {
+            console.log(chalk.magenta.bold("\nThis offer is still available. You can proceed with booking.\n"));
             bookNowOrVisitUs();
         }
         else {
-            console.log("\nSorry, this offer is no longer available.");
+            console.log(chalk.red.bold("\nSorry, this offer is no longer available."));
         }
     }
     else {
-        console.log("\nInvalid selection. Please try again.");
+        console.log(chalk.red.bold("\nInvalid selection. Please try again."));
     }
 }
 ;
-let trendingOptions = [
+// Array of trending destinations
+export let trendingOptions = [
     {
         name: "Lahore",
-        value: "lahore",
+        value: "Lahore",
         price: 40000,
         duration: "5 Days and 4 nights",
         validity: "2024-07-17",
-        availability: 0,
         groupName: "trendLahore",
     },
     {
         name: "Islamabad",
-        value: "islamabad",
+        value: "Islamabad",
         price: 45000,
         duration: "6 Days and 5 nights",
         validity: "2024-07-15",
-        availability: 0,
         groupName: "trendIslamabad",
     },
     {
         name: "Balochistan",
-        value: "balochistan",
+        value: "Balochistan",
         price: 47000,
         duration: "7 Days and 6 nights",
         validity: "2024-07-15",
-        availability: 0,
         groupName: "trendBalochistan",
     },
     {
         name: "Peshawar",
-        value: "peshawar",
+        value: "Peshawar",
         price: 45000,
         duration: "6 Days and 5 nights",
         validity: "2024-07-10",
-        availability: 0,
         groupName: "trendPeshawar",
     },
     {
         name: "Sawat",
-        value: "sawat",
+        value: "Sawat",
         price: 50000,
         duration: "7 Days and 6 nights",
         validity: "2024-07-05",
-        availability: 0,
         groupName: "trendSawat",
     },
     {
         name: "Naran Kaghan",
-        value: "naranKaghan",
+        value: "Naran Kaghan",
         price: 55000,
-        duration: "6 Days and 5 nights",
+        duration: "6 days and 5 nights",
         validity: "2024-06-30",
-        availability: 0,
         groupName: "trendNaranKaghan",
     },
     {
         name: "Karachi",
-        value: "karachi",
+        value: "Karachi",
         price: 45000,
         duration: "6 Days and 5 nights",
         validity: "2024-07-10",
-        availability: 0,
         groupName: "trendKarachi",
     },
 ];
+// Create choices for trending destinations
 let trendingDestinationOptionsForChocies = trendingOptions.map((option) => ({ name: `\n• ${option.name}:
-Package Price: Rs/-${option.price} --- Tour's Duration: ${option.duration}
- Availibility ${option.availability} persons.
+Package Price: Rs/-${option.price}
+Tour's Duration: ${option.duration}
 Last Date Of Booking ${option.validity}`,
     value: option.value,
 }));
+// Function to show trending destinations
 async function trendingDestinations() {
     const { trendingDestination } = await inquirer.prompt([
         {
             type: "list",
             name: "trendingDestination",
-            message: "\nWhat would you like to explore?",
+            message: chalk.green("\nWhat would you like to explore?\n"),
             choices: trendingDestinationOptionsForChocies,
         },
     ]);
@@ -209,178 +204,160 @@ async function trendingDestinations() {
     if (selectedDestination) {
         const currentDateForDestination = new Date();
         const destinationValidity = new Date(selectedDestination.validity);
-        if (currentDateForDestination <= destinationValidity &&
-            selectedDestination.availability >= 0 &&
-            selectedDestination.availability <= 20) {
-            console.log("\nThis offer is still available. You can proceed with booking.\n");
+        if (currentDateForDestination <= destinationValidity) {
+            console.log(chalk.magenta.bold("\nThis offer is still available. You can proceed with booking.\n"));
             bookNowOrVisitUs();
         }
         else {
-            console.log("\nSorry, this offer is no longer available.");
+            console.log(chalk.red.bold("\nSorry, this offer is no longer available."));
         }
     }
     else {
-        console.log("\nInvalid selection. Please try again.");
+        console.log(chalk.red.bold("\nInvalid selection. Please try again."));
     }
 }
 ;
-let otherOptions = [
+// Arrays of other places and foreign tours
+export let otherOptions = [
     {
         name: "Dubai",
-        value: "dubai",
+        value: "Dubai",
         price: 150000,
         duration: "3 Days and 2 nights",
         validity: "2024-06-25",
-        availability: 0,
         groupName: "othDubai",
     },
     {
         name: "Istanbul",
-        value: "istanbul",
+        value: "Istanbul",
         price: 250000,
         duration: "5 Days and 4 nights",
         validity: "2024-06-30",
-        availability: 0,
         groupName: "othIstanbul",
     },
     {
         name: "Paris",
-        value: "paris",
+        value: "Paris",
         price: 270000,
         duration: "6 Days and 5 nights",
         validity: "2024-07-10",
-        availability: 0,
         groupName: "othParis",
     },
     {
         name: "New York",
-        value: "newYork",
+        value: "New York",
         price: 250000,
         duration: "4 Days and 3 nights",
         validity: "2024-07-05",
-        availability: 0,
         groupName: "othNewYork",
     },
     {
         name: "Bangkok",
-        value: "bangkok",
+        value: "Bangkok",
         price: 200000,
         duration: "7 Days and 6 nights",
         validity: "2024-07-15",
-        availability: 0,
         groupName: "othBangkok",
     },
     {
         name: "Multan",
-        value: "multan",
+        value: "Multan",
         price: 50000,
         duration: "8 Days and 7 nights",
         validity: "2024-07-10",
-        availability: 0,
         groupName: "othMultan",
     },
     {
         name: "Rawalpindi",
-        value: "rawalpindi",
+        value: "Rawalpindi",
         price: 54000,
         duration: "8 Days and 6 nights",
         validity: "2024-07-15",
-        availability: 0,
         groupName: "othRawalpindi",
     },
     {
         name: "Taj Mehal",
-        value: "tajMehal",
+        value: "Taj Mehal",
         price: 150000,
         duration: "5 Days and 4 nights",
         validity: "2024-07-12",
-        availability: 0,
         groupName: "othTajMehal",
     },
     {
         name: "London",
-        value: "london",
+        value: "London",
         price: 265000,
         duration: "7 Days and 6 nights",
         validity: "2024-07-07",
-        availability: 0,
         groupName: "othLondon",
     },
     {
         name: "Canada",
-        value: "canada",
+        value: "Canada",
         price: 295000,
         duration: "7 Days and 6 nights",
         validity: "2024-06-25",
-        availability: 0,
         groupName: "othCanada",
     },
     {
         name: "South Korea",
-        value: "sothKorea",
+        value: "South Korea",
         price: 300000,
         duration: "7 Days and 6 nights",
         validity: "2024-06-27",
-        availability: 0,
         groupName: "othSouthKorea",
     },
     {
         name: "Switzerland",
-        value: "switzerland",
+        value: "Switzerland",
         price: 350000,
         duration: "6 Days and 5 nights",
         validity: "2024-07-01",
-        availability: 0,
         groupName: "othSwitzerland",
     },
 ];
+// Create choices for other places and foreign tours
 let OtherPlacesForChoices = otherOptions.map((option) => ({ name: `\n• ${option.name}:
-Package Price: Rs/-${option.price} --- Tour's Duration: ${option.duration}
- Availibility ${option.availability} persons.
+Package Price: Rs/-${option.price}
+Tour's Duration: ${option.duration}
 Last Date Of Booking ${option.validity}`,
     value: option.value,
 }));
-async function ForiegnCountriesAndOtherPlaces() {
+// Function to display foreign and other places
+async function foreignCountriesAndOtherPlaces() {
     const { otherPlaces } = await inquirer.prompt([
         {
             type: "list",
             name: "otherPlaces",
-            message: "\nWhich place would you like to visit?",
+            message: chalk.green("\nWhich place would you like to visit?\n"),
             choices: OtherPlacesForChoices,
         },
     ]);
     const selectedPlace = otherOptions.find((place) => place.value === otherPlaces);
     if (selectedPlace) {
-        console.log(`\nSelected Offer: ${selectedPlace.name}`);
-        console.log(`Package Price: Rs/-${selectedPlace.price}`);
-        console.log(`Tour's Duration: ${selectedPlace.duration}`);
-        console.log(`Availability: ${selectedPlace.availability} persons`);
-        console.log(`Last Date Of Booking: ${selectedPlace.validity}`);
         const currentDateForPlace = new Date();
         const placeValidity = new Date(selectedPlace.validity);
-        if (currentDateForPlace <= placeValidity &&
-            selectedPlace.availability >= 0 &&
-            selectedPlace.availability <= 20) {
-            console.log("\nThis offer is still available. You can proceed with booking.");
+        if (currentDateForPlace <= placeValidity) {
+            console.log(chalk.magenta.bold("\nThis offer is still available. You can proceed with booking."));
             bookNowOrVisitUs();
         }
         else {
-            console.log("\nSorry, this offer is no longer available.");
+            console.log(chalk.red.bold("\nSorry, this offer is no longer available."));
         }
     }
     else {
-        console.log("\nInvalid selection. Please try again.");
+        console.log(chalk.red.bold("\nInvalid selection. Please try again."));
     }
     return otherPlaces;
 }
 ;
-showPlaces();
+// Function to handle booking and visiting
 async function bookNowOrVisitUs() {
     const { bookNowOrVisitUs } = await inquirer.prompt([
         {
             type: "list",
             name: "bookNowOrVisitUs",
-            message: "\nDo you want to make a booking or visit us?",
+            message: chalk.green("\nDo you want to make a booking or visit us?\n"),
             choices: ["Book Now", "Visit Us", "Exit"],
         }
     ]);
@@ -388,123 +365,192 @@ async function bookNowOrVisitUs() {
         bookNow();
     }
     else if (bookNowOrVisitUs === "Visit Us") {
-        console.log(`\nAddress: Street No 123, Gulistan-e-Johar, Karachi
+        console.log(chalk.yellow.bold(`\nAddress: Street No 123, Gulistan-e-Johar, Karachi
     Visiting Hours: 9AM to 5PM
-    Phone: +923625432523 -- Email: sarazafar453@gmail.com`);
-        console.log(`Discover our amazing tours and create lasting memories!`);
+    Phone: +923625432523 -- Email: sarazafar453@gmail.com\n`));
+        console.log(chalk.magenta.bold(`Discover our amazing tours and create lasting memories!\n`));
         bookingConfirmation();
     }
     else {
-        console.log("\nThank You for Visiting Us. Come again!");
-        process.exit(0);
+        const rainbowAnimation = chlakAnimation.rainbow("\nThank You for Visiting Us. Come again!\n");
+        setTimeout(() => {
+            rainbowAnimation.stop();
+            process.exit(0);
+        }, 2000);
     }
 }
+// Concatenation of separate array of places in one array
 let allPlaces = offerOptions.concat(trendingOptions).concat(otherOptions);
-let AllPlacesForChoice = allPlaces.map((option) => ({
+// Create choices for all places
+export let allPlacesForChoice = allPlaces.map((option) => ({
     name: `\n• ${option.name}:
 Original Price: Rs/-${option.price} --- Discounted Price : Rs/-${option.discountedPrice}
-Tour's Duration: ${option.duration} --- Availibility ${option.availability} persons.
+Tour's Duration: ${option.duration}
 Last Date Of Booking ${option.validity}`,
     value: option.value,
 }));
 // This function generates a unique id for every tour client
-function generateJourneyJoyId() {
+export function generateJourneyJoyId() {
     const prefix = "JourneyJoy";
     const randomNumber = Math.floor(1000 + Math.random() * 9000); // Generates a random 4-digit nimber
     return `${prefix}${randomNumber}`;
 }
+// Function to handle the booking process
 async function bookNow() {
-    const { userName, email, clientPassword, chosenplace, payment, discountOffer } = await inquirer.prompt([
+    const { userName, email, gender, mobileNumber, password, chosenplace, payment, discountOffer, confirmPayment } = await inquirer.prompt([
         {
             type: "input",
             name: "userName",
-            message: "\nEnter your name:",
+            message: chalk.cyan("\nEnter your name:"),
         },
         {
             type: "input",
             name: "email",
-            message: "Enter your email here:",
+            message: chalk.cyan("Enter your email here:"),
             validate: (input) => {
                 const emailRegex = /^[^\s@]{1,64}@gmail\.com$/;
                 if (!emailRegex.test(input)) {
-                    return "Please enter a valid email address.";
+                    return chalk.red.bold("\nPlease enter a valid email address.");
                 }
                 // Verify total length of email address
                 if (input.length > 254) {
-                    return "Email address length cannot exceed 254 characters.";
+                    return chalk.red.bold("\nEmail address length cannot exceed 254 characters.");
                 }
                 return true;
             },
         },
         {
+            type: "list",
+            name: "gender",
+            message: chalk.cyan("Enter your gender:"),
+            choices: ["Male", "Female", "Other"],
+        },
+        {
             type: "password",
-            name: "clientPassword",
-            message: "Create a strong password for ticket:",
+            name: "password",
+            message: chalk.cyan("Create a strong password:"),
             mask: "•",
+        },
+        {
+            type: "input",
+            name: "mobileNumber",
+            message: chalk.cyan("Please enter your mobile number (optional, 11 digits):"),
+            validate: (input) => {
+                // Allow empty input for optional field
+                if (input.trim() === "") {
+                    return true;
+                }
+                // Regular expressionto match a valid mobile number (11 digits)
+                const mobileNumber = parseInt(input);
+                if (isNaN(mobileNumber) || !/^\d{11}$/.test(input)) {
+                    return chalk.red.bold("\nPlease enter a valid 11-digit mobile number or leave it blank.");
+                }
+                return true;
+            },
         },
         {
             type: "list",
             name: "chosenplace",
-            message: "Choose an option. Which place would you want to explore?\n",
-            choices: AllPlacesForChoice,
+            message: chalk.cyan("Choose an option. Which place would you want to explore?\n"),
+            choices: allPlacesForChoice,
         },
         {
             type: "list",
             name: "discountOffer",
-            message: "Have you choosen the discount offer?",
+            message: chalk.cyan("Have you choosen the discount offer?"),
             choices: ["Yes", "No"],
         },
         {
             type: "list",
             name: "payment",
-            message: "Would you like to pay by credit card or debit card?",
+            message: chalk.cyan("Would you like to pay by credit card or debit card?"),
             choices: ["Credit Card", "Debit Card"],
-        }
+        },
+        {
+            type: "list",
+            name: "confirmPayment",
+            message: chalk.yellow("\nConfirm payment?"),
+            choices: ["Yes", "No"],
+        },
     ]);
-    const clientCardDetails = await getCardDetails();
-    const clientId = generateJourneyJoyId();
-    const clients = {
-        name: userName,
-        id: clientId,
-        email: email,
-        password: clientPassword,
-        chosenPlace: chosenplace,
-        groupName: "",
-        discountedOffer: discountOffer,
-        payment: clientCardDetails,
-    };
-    let groupNaming = allPlaces.find((place) => {
-        place.name === chosenplace;
-    });
-    if (groupNaming) {
-        clients.groupName += groupNaming.groupName;
+    if (confirmPayment === "Yes") {
+        const clientCardDetails = await getCardDetails();
+        console.log(chalk.bold.yellow("\nProcessing Payment......"));
+        setTimeout(() => {
+            console.log(chalk.bold.green("Payment successfully processed!"));
+            console.log(chalk.bold.blue("\nThank you for registering!\n"));
+            const clientId = generateJourneyJoyId();
+            const selectedPlaceByUser = allPlaces.find((place) => place.value === chosenplace);
+            if (selectedPlaceByUser) {
+                const clients = {
+                    name: userName,
+                    id: clientId,
+                    email: email,
+                    gender: gender,
+                    mobileNumber: mobileNumber,
+                    password: password,
+                    chosenPlace: chosenplace,
+                    groupName: selectedPlaceByUser.groupName,
+                    discountedOffer: discountOffer,
+                    duration: selectedPlaceByUser.duration,
+                    validity: selectedPlaceByUser.validity,
+                    payment: clientCardDetails,
+                };
+                allClients.push(clients);
+                showTicket(clients);
+                main();
+            }
+            else {
+                console.log(chalk.red.bold("\nInvalid place selection. Please try again."));
+                bookNow();
+            }
+        }, 3000);
     }
     else {
-        clients.groupName = "";
-    }
-    if (clients.discountedOffer === undefined) {
-        otherClients.push(clients);
-    }
-    else {
-        offerclients.push(clients);
-    }
-    // This function returns a ticket info to client
-    function returnTicket(obj) {
-        console.log("\t JourneyJoy Ticket \t");
-        console.log(`Place : ${obj.chosenPlace}`);
-        console.log(`Client Name:`);
+        console.log(chalk.red.bold("\nPayment cancelled."));
+        bookNowOrVisitUs();
     }
 }
+// Function to show ticket details to the client
+function showTicket(obj) {
+    const ticketDetails = `
+  Place: ${obj.chosenPlace}
+  Client Name: ${obj.name}
+  Client ID: ${obj.id}
+  Password: ${obj.password}
+  Mobile Number: ${obj.mobileNumber}
+  Group Name: ${obj.groupName}
+  Payment: Rs/- ${obj.payment.amount}
+  Discounted Offer: ${obj.discountedOffer}
+  Last date of booking: ${obj.validity}
+  Tours Duration: ${obj.duration}
+  
+  Please remember your Client ID and Ticket Password.
+  You can open your ticket purchasing portal only with it.
+  ------------------------------------`;
+    console.log("\n");
+    const formattedTicket = boxen(ticketDetails, {
+        padding: 1,
+        margin: 1,
+        borderStyle: "double",
+        title: "JourneyJoy Ticket",
+        titleAlignment: "center",
+        backgroundColor: "cyan",
+        borderColor: "yellow",
+    });
+    console.log(chalk.bold.black(formattedTicket));
+}
+// Function to get card details for payment
 async function getCardDetails() {
     const { cardNumber, expiryDate, cardHolderName, amount } = await inquirer.prompt([
         {
             type: "input",
             name: "cardNumber",
-            message: "\nEnter your 16-digit card number:",
+            message: chalk.cyan("\nEnter your 16-digit card number:"),
             validate: (value) => {
                 const cardRegex = /^\d{16}$/;
                 if (!cardRegex.test(value)) {
-                    return "Please enter a valid 16-digit card number.";
+                    return chalk.red.bold("\nPlease enter a valid 16-digit card number.");
                 }
                 return true;
             }
@@ -512,11 +558,11 @@ async function getCardDetails() {
         {
             type: "input",
             name: "expiryDate",
-            message: "Enter expiry date (MM/YY):",
+            message: chalk.cyan("Enter expiry date (MM/YY):"),
             validate: (value) => {
                 const expiryRegex = /^\d{2}\/\d{2}$/;
                 if (!expiryRegex.test(value)) {
-                    return "Please enter a valid expiry date in MM/YY format.";
+                    return chalk.red.bold("Please enter a valid expiry date in MM/YY format.");
                 }
                 return true;
             }
@@ -524,10 +570,10 @@ async function getCardDetails() {
         {
             type: "input",
             name: "cardHolderName",
-            message: "Enter cardholder's name (max 20 characters):",
+            message: chalk.cyan("Enter cardholder's name (max 20 characters):"),
             validate: (value) => {
                 if (value.length > 20) {
-                    return "Cardholder's name must be 20 characters or less.";
+                    return chalk.red.bold("Cardholder's name must be 20 characters or less.");
                 }
                 return true;
             },
@@ -535,16 +581,16 @@ async function getCardDetails() {
         {
             type: "number",
             name: "amount",
-            message: "Enter the payment amount:",
+            message: chalk.cyan("Enter the payment amount (Make sure to pay in full and accurately):"),
             validate: (amt) => {
                 const clientOfferAmount = offerOptions.find((value) => value.discountedPrice === amt);
                 const clientTrendingOptionsAmount = trendingOptions.find((value) => value.price === amt);
                 const clientOtherPlaceAmount = otherOptions.find((value) => value.price === amt);
                 if (clientOfferAmount || clientTrendingOptionsAmount || clientOtherPlaceAmount) {
-                    return confirmPayment();
+                    return true;
                 }
                 else {
-                    return "Invalid amount. Please choose a valid amount or procceed with full-payment.";
+                    return chalk.red.bold("Invalid amount. Please choose a valid amount or procceed with full-payment.");
                 }
             },
         },
@@ -552,31 +598,12 @@ async function getCardDetails() {
     const cardDetails = { cardNumber, expiryDate, cardHolderName, amount };
     return cardDetails;
 }
-async function confirmPayment() {
-    const { confirmPayment } = await inquirer.prompt([
-        {
-            type: "confirm",
-            name: "confirmPayment",
-            message: "Confirm payment?",
-            default: false,
-        }
-    ]);
-    if (confirmPayment) {
-        console.log("\nProcessing Payment......");
-        setTimeout(() => {
-            console.log("Payment successfully processed!");
-        }, 3000);
-    }
-    else {
-        console.log("Payment cancelled.");
-        bookNowOrVisitUs();
-    }
-}
+// Function to confirm the user's intention to take a tour
 function bookingConfirmation() {
     inquirer.prompt({
         type: "confirm",
         name: "confirm",
-        message: "Do you want to take a tour",
+        message: chalk.green("Do you want to take a tour"),
         default: false,
     })
         .then((answers) => {
@@ -584,8 +611,11 @@ function bookingConfirmation() {
             showPlaces();
         }
         else {
-            console.log("Thank You for Visiting Us. Come again!");
-            process.exit(0);
+            const exitAnimation = chlakAnimation.rainbow("\nThank You for Visiting Us. Come again!\n");
+            setTimeout(() => {
+                exitAnimation.stop();
+                process.exit(0);
+            }, 2000);
         }
     });
 }
