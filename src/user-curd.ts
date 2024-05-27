@@ -3,7 +3,7 @@
 import inquirer from "inquirer";
 import boxen from "boxen";
 import { showPlaces, allClients, Clients} from "./displayTours.js";
-import { main } from "./user.js";
+import { main } from "./main.js";
 import chalk from "chalk";
 
 // This login function is for those pepole who have booked a tour

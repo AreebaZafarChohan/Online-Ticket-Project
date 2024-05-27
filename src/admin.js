@@ -1,6 +1,6 @@
 // This file contains admin portal work
 import inquirer from "inquirer";
-import { main } from "./user.js";
+import { main } from "./main.js";
 import { offerOptions, trendingOptions, otherOptions, allClients, allPlacesForChoice } from "./displayTours.js";
 import chalk from "chalk";
 // Declare admin ID and password

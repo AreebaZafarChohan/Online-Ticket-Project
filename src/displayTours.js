@@ -1,6 +1,6 @@
 // This file contains all over the portal work which will be shown to user.
 import inquirer from "inquirer";
-import { main } from "./user.js";
+import { main } from "./main.js";
 import boxen from "boxen";
 import chalk from "chalk";
 import chlakAnimation from "chalk-animation";

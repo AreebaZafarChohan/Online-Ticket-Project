@@ -1,7 +1,7 @@
 // This file contains admin portal work
 
 import inquirer, {PromptModule, QuestionCollection} from "inquirer";
-import { main } from "./user.js";
+import { main } from "./main.js";
 import { offerOptions, trendingOptions, otherOptions, allClients,
      Clients, allPlacesForChoice, Offer} from "./displayTours.js";
 import chalk from "chalk";     
