@@ -130,7 +130,7 @@ async function  addTour(): Promise<void> {
         },
     ]);
 
-    let {name, value, price, discountedPrice, validity, duration, groupName } = newTour; 
+    let {name, price, discountedPrice, validity, duration, groupName } = newTour; 
     let addNewTour = {
         name: name,
         value: name,

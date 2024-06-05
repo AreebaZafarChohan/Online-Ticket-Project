@@ -187,16 +187,16 @@ function postponeTour(id: string): void {
 
             const userIndex = allClients.findIndex(user => user.id === id);
 
-            if (userIndex === -1) {
-                console.log(chalk.red.bold("User not found!"));
-                displayOptions(id);
-                return;
-            } else {
+            /* if (userIndex !== -1) {
                 allClients.splice(userIndex, 1);
                 console.log(
                     chalk.yellow.bold("\nNow you need to register again if if you want to book another tour.\n"));
                 displayOptions(id);
-            }
+                return;
+            } else {
+                console.log(chalk.red.bold("User not found!"));
+                displayOptions(id);
+            } */
             }
         })
     }
