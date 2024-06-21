@@ -20,8 +20,8 @@ export interface Clients {
   duration: string;
   validity: string;
   payment: PaymentDetails
-  postponed?: boolean;
-  cancel?: boolean;
+  postponed: string;
+  cancel: string;
 }
 
 // Interface for payment details
@@ -65,7 +65,7 @@ export function showPlaces(): void {
   name: string;
   value: string;
   price: number;
-  discountedPrice?: number;
+  discountedPrice: number| string;
   duration: string;
   validity: string;
   groupName: string;
@@ -180,6 +180,7 @@ export let trendingOptions: Offer[] = [
     name: "Lahore",
     value: "Lahore",
     price: 40000,
+    discountedPrice: "---",
     duration: "5 Days and 4 nights",
     validity: "2024-07-17",
     groupName: "trendLahore",
@@ -188,6 +189,7 @@ export let trendingOptions: Offer[] = [
     name: "Islamabad",
     value: "Islamabad",
     price: 45000,
+    discountedPrice: "---",
     duration: "6 Days and 5 nights",
     validity: "2024-07-15",
     groupName: "trendIslamabad",
@@ -197,6 +199,7 @@ export let trendingOptions: Offer[] = [
     name: "Balochistan",
     value: "Balochistan",
     price: 47000,
+    discountedPrice: "---",
     duration: "7 Days and 6 nights",
     validity: "2024-07-15",
     groupName: "trendBalochistan",
@@ -205,6 +208,7 @@ export let trendingOptions: Offer[] = [
     name: "Peshawar",
     value: "Peshawar",
     price: 45000,
+    discountedPrice: "---",
     duration: "6 Days and 5 nights",
     validity: "2024-07-10",
     groupName: "trendPeshawar",
@@ -213,6 +217,7 @@ export let trendingOptions: Offer[] = [
     name: "Sawat",
     value: "Sawat",
     price: 50000,
+    discountedPrice: "---",
     duration: "7 Days and 6 nights",
     validity: "2024-07-05",
     groupName: "trendSawat",
@@ -221,6 +226,7 @@ export let trendingOptions: Offer[] = [
     name: "Naran Kaghan",
     value: "Naran Kaghan",
     price: 55000,
+    discountedPrice: "---",
     duration: "6 days and 5 nights",
     validity: "2024-06-30",
     groupName: "trendNaranKaghan",
@@ -229,6 +235,7 @@ export let trendingOptions: Offer[] = [
     name: "Karachi",
     value: "Karachi",
     price: 45000,
+    discountedPrice: "---",
     duration: "6 Days and 5 nights",
     validity: "2024-07-10",
     groupName: "trendKarachi",
@@ -280,6 +287,7 @@ export let otherOptions: Offer[] = [
     name: "Dubai",
     value: "Dubai",
     price: 150000,
+    discountedPrice: "---",
     duration: "3 Days and 2 nights",
     validity: "2024-06-25",
     groupName: "othDubai",
@@ -288,6 +296,7 @@ export let otherOptions: Offer[] = [
     name: "Istanbul",
     value: "Istanbul",
     price: 250000,
+    discountedPrice: "---",
     duration: "5 Days and 4 nights",
     validity: "2024-06-30",
     groupName: "othIstanbul",
@@ -296,6 +305,7 @@ export let otherOptions: Offer[] = [
     name: "Paris",
     value: "Paris",
     price: 270000,
+    discountedPrice: "---",
     duration: "6 Days and 5 nights",
     validity: "2024-07-10",
     groupName: "othParis",
@@ -304,6 +314,7 @@ export let otherOptions: Offer[] = [
     name: "New York",
     value: "New York",
     price: 250000,
+    discountedPrice: "---",
     duration: "4 Days and 3 nights",
     validity: "2024-07-05",
     groupName: "othNewYork",
@@ -312,6 +323,7 @@ export let otherOptions: Offer[] = [
     name: "Bangkok",
     value: "Bangkok",
     price: 200000,
+    discountedPrice: "---",
     duration: "7 Days and 6 nights",
     validity: "2024-07-15",
     groupName: "othBangkok",
@@ -320,6 +332,7 @@ export let otherOptions: Offer[] = [
     name: "Multan",
     value: "Multan",
     price: 50000,
+    discountedPrice: "---",
     duration: "8 Days and 7 nights",
     validity: "2024-07-10",
     groupName: "othMultan",
@@ -328,6 +341,7 @@ export let otherOptions: Offer[] = [
     name: "Rawalpindi",
     value: "Rawalpindi",
     price: 54000,
+    discountedPrice: "---",
     duration: "8 Days and 6 nights",
     validity: "2024-07-15",
     groupName: "othRawalpindi",
@@ -336,6 +350,7 @@ export let otherOptions: Offer[] = [
     name: "Taj Mehal",
     value: "Taj Mehal",
     price: 150000,
+    discountedPrice: "---",
     duration: "5 Days and 4 nights",
     validity: "2024-07-12",
     groupName: "othTajMehal",
@@ -344,6 +359,7 @@ export let otherOptions: Offer[] = [
     name: "London",
     value: "London",
     price: 265000,
+    discountedPrice: "---",
     duration: "7 Days and 6 nights",
     validity: "2024-07-07",
     groupName: "othLondon",
@@ -352,6 +368,7 @@ export let otherOptions: Offer[] = [
     name: "Canada",
     value: "Canada",
     price: 295000,
+    discountedPrice: "---",
     duration: "7 Days and 6 nights",
     validity: "2024-06-25",
     groupName: "othCanada",
@@ -360,6 +377,7 @@ export let otherOptions: Offer[] = [
     name: "South Korea",
     value: "South Korea",
     price: 300000,
+    discountedPrice: "---",
     duration: "7 Days and 6 nights",
     validity: "2024-06-27",
     groupName: "othSouthKorea",
@@ -368,6 +386,7 @@ export let otherOptions: Offer[] = [
     name: "Switzerland",
     value: "Switzerland",
     price: 350000,
+    discountedPrice: "---",
     duration: "6 Days and 5 nights",
     validity: "2024-07-01",
     groupName: "othSwitzerland",
@@ -564,6 +583,8 @@ async function bookNow(): Promise<void> {
     duration: selectedPlaceByUser.duration,
     validity: selectedPlaceByUser.validity,
     payment: clientCardDetails,
+    postponed: "Not Postponed",
+    cancel: "Not Cancelled",
     };
 
     allClients.push(clients);

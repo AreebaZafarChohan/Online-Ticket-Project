@@ -141,7 +141,7 @@ function postponeTour(id: string): void {
              console.log(chalk.yellow.bold(`\nReturn payment: Rs/-${returnAmount}\n`));
 
             user.payment.amount -= returnAmount;
-            user.postponed = true;
+            user.postponed = "Postponed";
             console.log(chalk.green.bold("\nTour has been postponed successfully!"));
             displayOptions(id);
         } else {
@@ -177,7 +177,7 @@ function postponeTour(id: string): void {
                 deducted from your payment due to cancellation.\n`));
 
                 user.payment.amount -= deductedAmount;
-                user.cancel = true;
+                user.cancel = "Cancelled";
 
                 console.log(chalk.green.bold("\nTour has been cancelled successfully!\n"));
             displayOptions(id);

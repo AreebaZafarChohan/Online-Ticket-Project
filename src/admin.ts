@@ -109,9 +109,20 @@ async function  addTour(): Promise<void> {
             message: chalk.magenta("Enter the price:"),
         },
         {
-        type: "number",
+        type: "input",
         name: "discountedPrice",
-        message: chalk.magenta("Enter the discounted price (if it is offer):"),
+        message: chalk.magenta("Enter the discounted price (if it is offer, leave blank if not):"),
+        validate: (input: string): boolean | string => {
+            // Allow empty input for optional field
+            if (input.trim() === "") {
+              return true;
+            }
+            const price = parseInt(input);
+            if (isNaN(price) || price <= 0) {
+              return chalk.red.bold("\nPlease enter a valid number for the discounted price or leave it blank.");
+            }
+            return true;
+          },
         },
         {
             type: "input",
@@ -130,18 +141,27 @@ async function  addTour(): Promise<void> {
         },
     ]);
 
-    let {name, price, discountedPrice, validity, duration, groupName } = newTour; 
-    let addNewTour = {
+    let {name, price, discountedPrice, validity, duration, groupName } = newTour;
+    let discountPrice: string | number = discountedPrice.trim() === ""? "---": parseInt(discountedPrice);
+    let addNewTour: Offer = {
         name: name,
         value: name,
         price: price,
-        discountedPrice: discountedPrice,
+        discountedPrice: discountPrice,
         validity: validity,
         duration: duration,
         groupName: groupName,
     }
-    allPlaces.push(addNewTour);
-    console.log(chalk.green.bold("\nTour added successfully!\n"));
+    if (addNewTour.discountedPrice !== undefined || typeof addNewTour.discountedPrice !== "string") {
+        offerOptions.push(addNewTour);
+        console.log(chalk.green.bold(`\nTour ${addNewTour.name} added to offers successfully!\n`));
+    } else if (addNewTour.price >= 200000) {
+        otherOptions.push(addNewTour);
+        console.log(chalk.green.bold(`\nTour ${addNewTour.name} added to other places successfully!\n`));
+    } else {
+        trendingOptions.push(addNewTour);
+        console.log(chalk.green.bold(`\nTour ${addNewTour.name} added to trending destinations successfully!\n`));
+    }
     adminPortal();
  }
 
@@ -295,7 +315,30 @@ async function viewAllClients(): Promise<void> {
 // Function to view all tours
 async function viewAllTours(): Promise<void> {
     console.log(chalk.cyan.bold("\n\tList of All Tours\t\n"));
-    allPlaces.forEach(tour => {
+    console.log(chalk.magenta.bold.underline("Tour Offers:\n"));
+    offerOptions.forEach(tour => {
+        console.log(chalk.bold.yellow(`Place Name: ${tour.name}`));
+        console.log(chalk.bold.yellow(`Price: ${tour.price}`));
+        console.log(chalk.bold.yellow(`Discounted Price: ${tour.discountedPrice || 'N/A or Undefined'}`));
+        console.log(chalk.bold.yellow(`Validity: ${tour.validity}`));
+        console.log(chalk.bold.yellow(`Duration: ${tour.duration}`));
+        console.log(chalk.bold.yellow(`Group Name: ${tour.groupName}`));
+        console.log(chalk.bold.magenta("------------------------------------\n"));
+    });
+    console.log("\n");
+    console.log(chalk.magenta.bold.underline("Trending Destinations:\n"));
+    trendingOptions.forEach(tour => {
+        console.log(chalk.bold.yellow(`Place Name: ${tour.name}`));
+        console.log(chalk.bold.yellow(`Price: ${tour.price}`));
+        console.log(chalk.bold.yellow(`Discounted Price: ${tour.discountedPrice || 'N/A or Undefined'}`));
+        console.log(chalk.bold.yellow(`Validity: ${tour.validity}`));
+        console.log(chalk.bold.yellow(`Duration: ${tour.duration}`));
+        console.log(chalk.bold.yellow(`Group Name: ${tour.groupName}`));
+        console.log(chalk.bold.magenta("------------------------------------\n"));
+    });
+    console.log("\n");
+    console.log(chalk.magenta.bold.underline("Other and Foreign Tours:\n"));
+    otherOptions.forEach(tour => {
         console.log(chalk.bold.yellow(`Place Name: ${tour.name}`));
         console.log(chalk.bold.yellow(`Price: ${tour.price}`));
         console.log(chalk.bold.yellow(`Discounted Price: ${tour.discountedPrice || 'N/A or Undefined'}`));

@@ -125,7 +125,7 @@ function postponeTour(id) {
              deducted from your payment due to postponment.\n`));
             console.log(chalk.yellow.bold(`\nReturn payment: Rs/-${returnAmount}\n`));
             user.payment.amount -= returnAmount;
-            user.postponed = true;
+            user.postponed = "Postponed";
             console.log(chalk.green.bold("\nTour has been postponed successfully!"));
             displayOptions(id);
         }
@@ -156,7 +156,7 @@ function cancelTour(id) {
             console.log(chalk.yellow.bold(`\n50% of the payment (Rs/-${deductedAmount})has been
                 deducted from your payment due to cancellation.\n`));
             user.payment.amount -= deductedAmount;
-            user.cancel = true;
+            user.cancel = "Cancelled";
             console.log(chalk.green.bold("\nTour has been cancelled successfully!\n"));
             displayOptions(id);
         }
@@ -164,16 +164,16 @@ function cancelTour(id) {
             console.log(chalk.red.bold("\nTour cancellation cancelled.\n"));
             displayOptions(id);
             const userIndex = allClients.findIndex(user => user.id === id);
-            if (userIndex === -1) {
-                console.log(chalk.red.bold("User not found!"));
+            /* if (userIndex !== -1) {
+                allClients.splice(userIndex, 1);
+                console.log(
+                    chalk.yellow.bold("\nNow you need to register again if if you want to book another tour.\n"));
                 displayOptions(id);
                 return;
-            }
-            else {
-                allClients.splice(userIndex, 1);
-                console.log(chalk.yellow.bold("\nNow you need to register again if if you want to book another tour.\n"));
+            } else {
+                console.log(chalk.red.bold("User not found!"));
                 displayOptions(id);
-            }
+            } */
         }
     });
 }
